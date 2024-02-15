@@ -1,6 +1,5 @@
 package org.gr40in.task1;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -9,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import javax.sql.rowset.spi.XmlWriter;
 import java.io.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -17,10 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.XMLFormatter;
 
 public class ListOfStudentConvertor {
 
@@ -59,22 +54,13 @@ public class ListOfStudentConvertor {
     //endregion
 
     //region XML
-    public static void toXml(String fileName,  List<?> list) throws IOException {
-//                Collection<String> list2 = new ArrayList<>();
-//        list2.add("one");
-//        list2.add("too");
-//        list2.add("tree");
-        XmlMapper mapper = new XmlMapper();
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-//        mapper.findAndRegisterModules();
+    public static void toXml(String fileName,  @JacksonXmlElementWrapper List<?> list) throws IOException {
 
-//        XmlMapper mapper = XmlMapper.xmlBuilder()
-//                .findAndAddModules()
-//                .addModule(new JavaTimeModule())
-//                .configure(SerializationFeature.INDENT_OUTPUT, true)
-//                .build();
+        XmlMapper mapper = XmlMapper.builder()
+                .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .addModule(new JavaTimeModule())
+                .build();
         mapper.writeValue(new File(fileName), list);
     }
 
@@ -84,10 +70,36 @@ public class ListOfStudentConvertor {
         if (!file.exists()) return null;
 
         XmlMapper mapper = XmlMapper.builder()
-                .findAndAddModules()
                 .addModule(new JavaTimeModule())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .build();
 
+        return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, classOfItemsInList));
+    }
+
+    //endregion
+
+    //region XML JAXB
+    public static void toXmlJAXB(String fileName,  List<Student> list) throws IOException {
+
+        XmlMapper mapper = XmlMapper.builder()
+                .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .addModule(new JavaTimeModule())
+                .build();
+        mapper.writeValue(new File(fileName), list);
+    }
+
+    public static List<?> fromXmlJAXB(String fileName, Class<?> classOfItemsInList) throws IOException {
+
+        File file = new File(fileName);
+        if (!file.exists()) return null;
+
+        XmlMapper mapper = XmlMapper.builder()
+                .addModule(new JavaTimeModule())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .configure(SerializationFeature.INDENT_OUTPUT, true)
                 .build();
 
         return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, classOfItemsInList));

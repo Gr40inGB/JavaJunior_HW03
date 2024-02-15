@@ -1,20 +1,29 @@
 package org.gr40in.task1;
 
-import com.google.gson.annotations.SerializedName;
-import jdk.jfr.DataAmount;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.xml.namespace.QName;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@XmlRootElement
 public class Student implements Serializable {
+    @XmlElement(name = "Studname")
     private String name;
-    @DataAmount
     private LocalDate birthDate;
+    @JsonIgnore
     transient double gpa;
 
     public Student() {
+    }
+
+    public Student(String name, LocalDate birthDate, double gpa) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gpa = gpa;
     }
 
     @Override
@@ -62,10 +71,4 @@ public class Student implements Serializable {
         this.gpa = gpa;
     }
 
-
-    public Student(String name, LocalDate birthDate, double gpa) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.gpa = gpa;
-    }
 }
