@@ -11,10 +11,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@XmlRootElement
+@JacksonXmlRootElement(localName = "Students")
 public class Student implements Serializable {
     private String name;
     private LocalDate birthDate;
+    @JsonIgnore
     transient double gpa;
 
     public Student() {

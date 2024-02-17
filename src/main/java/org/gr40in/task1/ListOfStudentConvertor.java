@@ -33,8 +33,6 @@ public class ListOfStudentConvertor {
 
 
     public static String getJson(List<?> list) throws IOException {
-        String simpleName = list.getClass().getSimpleName();
-        System.out.println(simpleName);
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())

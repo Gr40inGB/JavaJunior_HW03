@@ -13,11 +13,10 @@ public class Main {
         Student hermioneGranger = new Student("Hermione Granger", LocalDate.of(1979, 9, 19), 5.0);
         Student ronWeasley = new Student("Ron Weasley", LocalDate.of(1980, 3, 1), 3.9);
 
-        List<Student> studentList = new ArrayList<>() {{
-            add(garryPotter);
-            add(hermioneGranger);
-            add(ronWeasley);
-        }};
+        List<Student> studentList = new ArrayList<>();
+        studentList.add(garryPotter);
+        studentList.add(hermioneGranger);
+        studentList.add(ronWeasley);
 
         //JSON
         ListOfStudentConvertor.saveToJson(studentList);
