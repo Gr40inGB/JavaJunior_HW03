@@ -1,9 +1,5 @@
 package org.gr40in.task1;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-
-import javax.naming.Context;
 import javax.xml.bind.*;
 
 import java.io.*;
@@ -22,29 +18,20 @@ public class Main {
             add(hermioneGranger);
             add(ronWeasley);
         }};
-        String s = "Fucj";
 
-        System.out.println(s);
-        JAXBContext context = JAXBContext.newInstance(Student.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(studentList, new File(s));
+        //JSON
+        ListOfStudentConvertor.saveToJson(studentList);
+        System.out.println(ListOfStudentConvertor.loadFromJson(Student.class));
 
+        //BIN
+        String binFileName = "Student.bin";
+        ListOfStudentConvertor.toBinary(binFileName, studentList);
+        System.out.println(ListOfStudentConvertor.fromBinary(binFileName));
 
-//        //JSON
-//        ListOfStudentConvertor.saveToJson(studentList);
-//        System.out.println(ListOfStudentConvertor.loadFromJson(Student.class));
-//
-//        //BIN
-//        String binFileName = "Student.bin";
-//        ListOfStudentConvertor.toBinary(binFileName, studentList);
-//        System.out.println(ListOfStudentConvertor.fromBinary(binFileName));
-//
-//        //XML
-//        String xmlFileName = "Student.xml";
-//        ListOfStudentConvertor.toXml(xmlFileName, studentList);
-//        System.out.println(ListOfStudentConvertor.fromXml(xmlFileName, Student.class));
+        //XML
+        String xmlFileName = "Student.xml";
+        ListOfStudentConvertor.toXml(xmlFileName, studentList);
+        System.out.println(ListOfStudentConvertor.fromXml(xmlFileName, Student.class));
 
     }
-
-
 }
