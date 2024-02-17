@@ -1,4 +1,4 @@
-[ListOfStudentConvertor.java](ListOfStudentConvertor.java)
+[ListOfStudentConvertor.java](src/main/java/org/gr40in/task1/ListOfStudentConvertor.java)
 ```java
 package org.gr40in.task1;
 
@@ -100,7 +100,7 @@ public class ListOfStudentConvertor {
 
 }
 ```
-[Main.java](Main.java)
+[Main.java](src/main/java/org/gr40in/task1/Main.java)
 
 ```java
 package org.gr40in.task1;
